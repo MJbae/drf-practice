@@ -1,16 +1,10 @@
-from rest_framework import generics, permissions
+from rest_framework import viewsets
 from .models import Post
 from .serializers import PostSerializer
 from .permissions import IsAuthorNorReadOnly
 
 
-class PostList(generics.ListCreateAPIView):
-    # permission_classes = (permissions.IsAuthenticated,)
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorNorReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
