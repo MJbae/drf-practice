@@ -1,1 +1,1 @@
-# drf-tutorial
+# drf-practice
