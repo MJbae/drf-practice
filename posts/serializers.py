@@ -8,6 +8,14 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'author', 'title', 'body', 'created_at',)
 
+    def validate(self, data):
+        first_author = self.context.get("first_author")
+
+        if data['author'] != first_author:
+            raise serializers.ValidationError("not that author")
+
+        return data
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
