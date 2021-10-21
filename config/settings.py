@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'posts',
+    'readers',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
