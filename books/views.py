@@ -11,3 +11,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+    def get_queryset(self):
+        queryset = Book.objects.select_related("author").all()
+        print(f'queryset: {queryset.query}')
+        return queryset
