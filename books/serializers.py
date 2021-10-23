@@ -10,6 +10,10 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
+    book_display_name = serializers.SerializerMethodField(source='get_book_display_name')
+
+    def get_book_display_name(self, book):
+        return book.name.upper()
 
     class Meta:
         model = Book
