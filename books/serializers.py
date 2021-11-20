@@ -1,15 +1,28 @@
 from rest_framework import serializers
-from .models import Author, Book
+from .models import Author, Book, Isbn
+
+
+class IsbnSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Isbn
+        fields = ('code',)
+
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ('name', 'book_display_name', 'isbn')
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = "__all__"
+        fields = ('name',)
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookReportSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
+    isbn = IsbnSerializer(read_only=True)
     book_display_name = serializers.SerializerMethodField(source='get_book_display_name')
 
     def get_book_display_name(self, book):
@@ -17,4 +30,4 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ('name', 'book_display_name', 'isbn', 'author')
