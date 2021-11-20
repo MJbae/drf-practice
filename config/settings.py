@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'posts',
     'readers',
     'books',
-    'cattles',
+    'dogs',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
