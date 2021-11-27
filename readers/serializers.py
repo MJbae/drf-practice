@@ -3,9 +3,10 @@ from .models import Reader, Address
 
 
 class AddressSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Address
-        fields = ('detail', 'city')
+        fields = ('id', 'detail', 'city', 'reader')
 
 
 class ReaderSerializer(serializers.ModelSerializer):
@@ -13,4 +14,4 @@ class ReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reader
-        fields = ('name', 'email', 'addresses')
+        fields = ('id', 'name', 'email', 'addresses')
