@@ -13,17 +13,27 @@ class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
-    # TEST: Address 모델 인스턴스 수정에 따라 Reader의 연관 필드값이 동적으로 변함
+    # TODO: Address 모델 인스턴스 수정에 따라 Reader의 연관 필드값이 동적으로 변함
     # def update(self, request, *args, **kwargs):
 
-    # TEST: Address 모델 인스턴스 생성에 따라 Reader의 연관 필드값이 동적으로 변함
+    # TODO: Address 모델 인스턴스 생성에 따라 Reader의 연관 필드값이 동적으로 변함
     def create(self, request, *args, **kwargs):
         request_body = request.data
         model_relationship = isinstance(request_body, list)
         reader_id = request_body.get('reader')
         reader = Reader.objects.get(id=reader_id)
-        total_city = getattr(reader, 'total_city')
-        print(f'request_body: {request_body}')
+        latest_city = getattr(reader, 'latest_city')
+        new_city = request_body.get('city')
+        print(f'latest_city: {latest_city}, new_city: {new_city}')
+
+        # 새로 생성되는 address가 최신 city일 경우(가장 값이 높은 city일 경우)
+        # Reader 내 latest_city 값 수정
+        if new_city > latest_city:
+            reader.latest_city = new_city
+            reader.save()
+
+        # 새로 생성되는 address의 city의 값이 가장 높지 않을 경우
+        # Reader 내 latest_city 값 유지
 
         serializer = AddressSerializer(data=request_body, many=model_relationship)
 

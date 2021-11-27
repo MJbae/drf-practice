@@ -4,7 +4,7 @@ from django.db import models
 class Reader(models.Model):
     name = models.CharField(max_length=60)
     email = models.EmailField()
-    total_city = models.FloatField(default=1)
+    latest_city = models.FloatField(default=1)
 
 
 class Address(models.Model):
