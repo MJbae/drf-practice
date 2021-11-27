@@ -39,10 +39,10 @@ class AddressViewSet(viewsets.ModelViewSet):
                 self.get_queryset(), data=request_body, **kwargs
             )
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid()
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_200_OK)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # Address 모델 인스턴스 생성에 따라 Reader의 연관 필드값이 동적으로 변함
     def create(self, request, *args, **kwargs):
