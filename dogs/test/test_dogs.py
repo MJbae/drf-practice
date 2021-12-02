@@ -5,26 +5,29 @@ from rest_framework.test import APITestCase, URLPatternsTestCase
 from datetime import date, timedelta
 
 
-class DogTests(APITestCase, URLPatternsTestCase):
-    urlpatterns = [
-        path('api/v1/', include('dogs.urls')),
-    ]
+class DogTests(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.URL_DOGS = "/api/v1/dogs/"
 
-    def test_create_dog(self):
+    def test_create_and_retrieve_dog(self):
         number_of_objects_before_test = Dog.objects.count()
-        url = reverse('dogs-list')
         birth_date = date.today()
         data = {"birth_date": birth_date, "sex": "F"}
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.URL_DOGS, data, format='json')
         print(f'response: {response}')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Dog.objects.count(), number_of_objects_before_test + 1)
         self.assertEqual(Dog.objects.get().birth_date, birth_date)
         self.assertEqual(Dog.objects.get().sex, 'F')
 
-    def test_view_url_accessible_by_name(self):
+    def test_retrieve_dogs(self):
         number_of_objects_in_model = Dog.objects.count()
-        url = reverse('dogs-list')
-        response = self.client.get(url)
+        response = self.client.get(self.URL_DOGS, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), number_of_objects_in_model)
+
+    def test_retrieve_dog(self):
+        url = self.URL_DOGS + "1/"
+        response = self.client.get(self.URL_DOGS, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

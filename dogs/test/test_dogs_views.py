@@ -8,7 +8,8 @@ from dogs.models import Dog
 class DogListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Create 13 authors for pagination tests
+        cls.URL_DOGS = "/api/v1/dogs/"
+        # Create 13 dogs for pagination tests
         number_of_dogs = 13
 
         for dog_id in range(number_of_dogs):
@@ -18,10 +19,10 @@ class DogListViewTest(TestCase):
             )
 
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get('/api/v1/dogs/')
+        response = self.client.get(self.URL_DOGS)
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('dogs-list'))
+        response = self.client.get(self.URL_DOGS)
         self.assertEqual(response.status_code, 200)
 
