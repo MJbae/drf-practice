@@ -10,8 +10,8 @@ class DogTests(APITestCase):
     def setUpTestData(cls):
         cls.URL_DOGS = "/api/v1/dogs/"
         cls.TARGET_DOG_ID = "1"
-        number_of_dogs = 3
 
+        number_of_dogs = 3
         for dog_id in range(number_of_dogs):
             Dog.objects.create(
                 sex='F',
@@ -42,17 +42,26 @@ class DogTests(APITestCase):
     def test_retrieve_dogs(self):
         number_of_objects_in_model = Dog.objects.count()
         response = self.client.get(self.URL_DOGS, format='json')
+        dogs = response.data
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), number_of_objects_in_model)
 
+        for dog in dogs:
+            dog_id = dog["id"]
+            dog_birth_data = dog["birth_date"]
+            dog_sex = dog["sex"]
+
+            self.assertEqual(Dog.objects.get(id=dog_id).birth_date.strftime('%Y-%m-%d'), dog_birth_data)
+            self.assertEqual(Dog.objects.get(id=dog_id).sex, dog_sex)
+
     def test_update_dog(self):
-        # test create-feature
         birth_date = date.today()
         sex = "M"
         data = {"birth_date": birth_date, "sex": sex}
         target_dog_id = self.TARGET_DOG_ID
 
-        # test retrieve-feature
+        # test patch-feature
         url = self.URL_DOGS + f'{target_dog_id}' + "/"
         response = self.client.patch(url, data, format='json')
         returned_birth_date = response.data['birth_date']
