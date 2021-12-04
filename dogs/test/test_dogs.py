@@ -5,18 +5,68 @@ from rest_framework.test import APITestCase, URLPatternsTestCase
 from datetime import date, timedelta
 
 
-class DogTests(APITestCase, URLPatternsTestCase):
-    urlpatterns = [
-        path('api/v1/dogs/', include('dogs.urls')),
-    ]
+class DogTests(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.URL_DOGS = "/api/v1/dogs/"
+        cls.TARGET_DOG_ID = "1"
 
-    def test_create_dog(self):
-        length_before = Dog.objects.count()
-        url = '/api/v1/dogs/'
+        number_of_dogs = 3
+        for dog_id in range(number_of_dogs):
+            Dog.objects.create(
+                sex='F',
+                birth_date=date.today() + timedelta(days=dog_id),
+            )
+
+    def test_create_and_retrieve_dog(self):
+        # test create-feature
         birth_date = date.today()
-        data = {'birth_date': birth_date, 'sex': 'F'}
-        response = self.client.post(url, data, format='json')
+        data = {"birth_date": birth_date, "sex": "F"}
+        response = self.client.post(self.URL_DOGS, data, format='json')
+        created_dog_id = response.data['id']
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Dog.objects.count(), length_before + 1)
-        self.assertEqual(Dog.objects.get().birth_date, birth_date)
-        self.assertEqual(Dog.objects.get().sex, 'F')
+        self.assertEqual(Dog.objects.get(id=created_dog_id).birth_date, birth_date)
+        self.assertEqual(Dog.objects.get(id=created_dog_id).sex, 'F')
+
+        # test retrieve-feature
+        url = self.URL_DOGS + f'{created_dog_id}' + "/"
+        response = self.client.get(url, format='json')
+        retrieved_dog_birth_date = response.data['birth_date']
+        retrieved_dog_sex = response.data['sex']
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(retrieved_dog_birth_date, birth_date.strftime('%Y-%m-%d'))
+        self.assertEqual(retrieved_dog_sex, 'F')
+
+    def test_retrieve_dogs(self):
+        number_of_objects_in_model = Dog.objects.count()
+        response = self.client.get(self.URL_DOGS, format='json')
+        dogs = response.data
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), number_of_objects_in_model)
+
+        for dog in dogs:
+            dog_id = dog["id"]
+            dog_birth_data = dog["birth_date"]
+            dog_sex = dog["sex"]
+
+            self.assertEqual(Dog.objects.get(id=dog_id).birth_date.strftime('%Y-%m-%d'), dog_birth_data)
+            self.assertEqual(Dog.objects.get(id=dog_id).sex, dog_sex)
+
+    def test_update_dog(self):
+        birth_date = date.today()
+        sex = "M"
+        data = {"birth_date": birth_date, "sex": sex}
+        target_dog_id = self.TARGET_DOG_ID
+
+        # test patch-feature
+        url = self.URL_DOGS + f'{target_dog_id}' + "/"
+        response = self.client.patch(url, data, format='json')
+        returned_birth_date = response.data['birth_date']
+        returned_dog_sex = response.data['sex']
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(returned_birth_date, birth_date.strftime('%Y-%m-%d'))
+        self.assertEqual(returned_dog_sex, sex)
