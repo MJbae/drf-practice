@@ -2,8 +2,17 @@ from rest_framework import serializers
 from .models import Dog, Customer, Owner
 
 
+class DogSerializer(serializers.ModelSerializer):
+    # owners = OwnerSerializer(many=True)
+    # customers = CustomerSerializer(many=True)
+
+    class Meta:
+        model = Dog
+        fields = "__all__"
+
+
 class CustomerSerializer(serializers.ModelSerializer):
-    # dog_set = DogSerializer(read_only=True)
+    dogs = DogSerializer(many=True, source='dog_set')
 
     class Meta:
         model = Customer
@@ -11,17 +20,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OwnerSerializer(serializers.ModelSerializer):
-    # dog_set = DogSerializer(read_only=True)
+    dogs = DogSerializer(many=True, source='dog_set')
 
     class Meta:
         model = Owner
-        fields = "__all__"
-
-
-class DogSerializer(serializers.ModelSerializer):
-    owners = OwnerSerializer(many=True)
-    customers = CustomerSerializer(many=True)
-
-    class Meta:
-        model = Dog
         fields = "__all__"
