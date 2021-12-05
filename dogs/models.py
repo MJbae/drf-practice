@@ -13,3 +13,13 @@ class Dog(models.Model):
         max_length=1,
         choices=Sex.choices,
     )
+
+
+class Owner(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True)
+
+
+class Customer(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True)
