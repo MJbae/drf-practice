@@ -7,7 +7,7 @@ import pytest
 def utbb():
     def unfilled_transaction_bakery_batch(n):
         utbb = baker.make(
-            'transaction.Transaction',
+            'dogs.Transaction',
             amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
             _fill_optional=[
                 'name',
@@ -26,7 +26,7 @@ def utbb():
 def ftbb():
     def filled_transaction_bakery_batch(n):
         utbb = baker.make(
-            'transaction.Transaction',
+            'dogs.Transaction',
             amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
             _quantity=n
         )
@@ -39,9 +39,9 @@ def ftbb():
 def ftb():
     def filled_transaction_bakery():
         utbb = baker.make(
-            'transaction.Transaction',
+            'dogs.Transaction',
             amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
-            currency=baker.make('transaction.Currency')
+            currency=baker.make('dogs.Currency')
         )
         return utbb
 
