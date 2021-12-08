@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Dog, Customer, Owner
-from .serializers import DogSerializer, CustomerSerializer, OwnerSerializer
+from .models import *
+from .serializers import *
 
 
 class DogViewSet(viewsets.ModelViewSet):
@@ -8,6 +8,16 @@ class DogViewSet(viewsets.ModelViewSet):
     serializer_class = DogSerializer
 
 
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+
+
+class CurrencyViewSet(viewsets.ModelViewSet):
+    queryset = Currency.objects.all()
+    serializer_class = CurrencySerializer
+    
+    
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer

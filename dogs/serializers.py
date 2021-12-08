@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Dog, Customer, Owner
+from .models import *
+
 
 
 class DogSerializer(serializers.ModelSerializer):
@@ -11,6 +12,17 @@ class DogSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class CurrencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Currency
+        fields = "__all__"
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        
+        
 class CustomerSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, source='dog_set')
 
@@ -24,4 +36,4 @@ class OwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Owner
-        fields = "__all__"
+
