@@ -3,6 +3,7 @@ from model_bakery import baker
 import pytest
 
 
+@pytest.fixture
 def utbb():
     def unfilled_transaction_bakery_batch(n):
         utbb = baker.make(
@@ -45,8 +46,3 @@ def ftb():
         return utbb
 
     return filled_transaction_bakery
-
-
-@pytest.fixture
-def api_client():
-    return APIClient
