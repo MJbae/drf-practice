@@ -16,9 +16,6 @@ class Dog(models.Model):
         choices=Sex.choices,
     )
 
-
-# inside apps/app/models.py
-
 import string
 from django.db import models
 from django.utils import timezone
@@ -55,3 +52,13 @@ def link(self):
     Link to a payment form for the transaction
     """
     return settings.ALLOWED_HOSTS[0] + f'/payment/{str(self.id)}'
+
+class Owner(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True, related_name="owners")
+
+
+class Customer(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True, related_name="customers")
+
