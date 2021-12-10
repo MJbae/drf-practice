@@ -16,6 +16,7 @@ class Dog(models.Model):
         choices=Sex.choices,
     )
 
+
 import string
 from django.db import models
 from django.utils import timezone
@@ -41,9 +42,7 @@ class Transaction(models.Model):
     currency = models.ForeignKey(Currency, null=False, blank=False, default=1, on_delete=models.PROTECT)
     payment_status = models.CharField(max_length=21)
     payment_intent_id = models.CharField(max_length=100, null=True, blank=False, default=None)
-
-
-message = models.TextField(null=True, blank=True)
+    message = models.TextField(null=True, blank=True)
 
 
 @property
@@ -53,6 +52,7 @@ def link(self):
     """
     return settings.ALLOWED_HOSTS[0] + f'/payment/{str(self.id)}'
 
+
 class Owner(models.Model):
     name = models.CharField(max_length=64, null=True)
     dog_set = models.ManyToManyField(Dog, blank=True, related_name="owners")
@@ -61,4 +61,3 @@ class Owner(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=64, null=True)
     dog_set = models.ManyToManyField(Dog, blank=True, related_name="customers")
-
