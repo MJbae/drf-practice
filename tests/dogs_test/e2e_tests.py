@@ -35,8 +35,12 @@ class TestCurrencyEndpoints:
             format='json'
         )
 
+        # response body에서 자동 생성된 id 필드 제거
+        response_body = json.loads(response.content)
+        del(response_body['id'])
+
         assert response.status_code == 201
-        assert json.loads(response.content) == expected_json
+        assert response_body == expected_json
 
     def test_retrieve(self, api_client):
         currency = baker.make(Currency)
