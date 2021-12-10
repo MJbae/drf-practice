@@ -37,7 +37,7 @@ class TestCurrencyEndpoints:
 
         # response body에서 자동 생성된 id 필드 제거
         response_body = json.loads(response.content)
-        del(response_body['id'])
+        del (response_body['id'])
 
         assert response.status_code == 201
         assert response_body == expected_json
@@ -53,8 +53,12 @@ class TestCurrencyEndpoints:
 
         response = api_client().get(url)
 
+        # response body에서 자동 생성된 id 필드 제거
+        response_body = json.loads(response.content)
+        del (response_body['id'])
+
         assert response.status_code == 200
-        assert json.loads(response.content) == expected_json
+        assert response_body == expected_json
 
     def test_update(self, rf, api_client):
         old_currency = baker.make(Currency)
@@ -73,8 +77,12 @@ class TestCurrencyEndpoints:
             format='json'
         )
 
+        # response body에서 자동 생성된 id 필드 제거
+        response_body = json.loads(response.content)
+        del (response_body['id'])
+
         assert response.status_code == 200
-        assert json.loads(response.content) == currency_dict
+        assert response_body == currency_dict
 
     @pytest.mark.parametrize('field', [
         ('code'),
