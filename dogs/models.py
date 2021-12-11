@@ -44,7 +44,6 @@ class Transaction(models.Model):
     message = models.TextField(null=True, blank=True)
 
 
-
 class Owner(models.Model):
     name = models.CharField(max_length=64, null=True)
     dog_set = models.ManyToManyField(Dog, blank=True, related_name="owners")

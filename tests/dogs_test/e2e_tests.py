@@ -159,7 +159,7 @@ class TestTransactionEndpoints:
 
     def test_retrieve(self, api_client, ftb):
         t = ftb()
-        # t = Transaction.objects.last()
+        t = Transaction.objects.last()
         expected_json = t.__dict__
         expected_json['creation_date'] = expected_json['creation_date'].strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -179,15 +179,11 @@ class TestTransactionEndpoints:
 
     def test_update(self, api_client, utbb):
         old_transaction = utbb(1)[0]
-        t = utbb(1)[0]
-        expected_json = t.__dict__
-        expected_json['id'] = old_transaction.id
-        expected_json['currency'] = old_transaction.currency.id
-        expected_json['creation_date'] = old_transaction.creation_date.strftime(
-            '%Y-%m-%dT%H:%M:%S.%fZ'
-        )
+        new_transaction = utbb(1)[0]
+
+        expected_json = new_transaction.__dict__
+        expected_json['currency'] = new_transaction.currency.id
         expected_json.pop('_state')
-        expected_json.pop('currency_id')
 
         url = f'{self.endpoint}{old_transaction.id}/'
 
@@ -196,12 +192,14 @@ class TestTransactionEndpoints:
             data=expected_json,
             format='json'
         )
-        print(f'old_transaction.currency.code: {old_transaction.currency.code}')
-        print(f'old_transaction.currency.id: {old_transaction.currency.id}')
-        print(f'json.loads(response.content): {json.loads(response.content)}')
-        print(f'expected_json: {expected_json}')
+
+        response_body = json.loads(response.content)
+
         assert response.status_code == 200 or response.status_code == 301
-        assert json.loads(response.content) == expected_json
+        assert response_body['currency'] == expected_json['currency']
+        assert response_body['name'] == expected_json['name']
+        assert response_body['email'] == expected_json['email']
+        assert response_body['message'] == expected_json['message']
 
     @pytest.mark.parametrize('field', [
         ('name'),
