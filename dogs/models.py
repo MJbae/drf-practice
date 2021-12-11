@@ -43,12 +43,6 @@ class Transaction(models.Model):
     payment_intent_id = models.CharField(max_length=100, null=True, blank=False, default=None)
     message = models.TextField(null=True, blank=True)
 
-    @property
-    def link(self):
-        """
-        Link to a payment form for the transaction
-        """
-        return settings.ALLOWED_HOSTS[0] + f'/payment/{str(self.id)}'
 
 
 class Owner(models.Model):

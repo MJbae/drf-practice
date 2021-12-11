@@ -8,13 +8,13 @@ def utbb():
     def unfilled_transaction_bakery_batch(n):
         utbb = baker.make(
             'dogs.Transaction',
-            amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
             _fill_optional=[
                 'name',
                 'email',
                 'currency',
                 'message'
             ],
+            currency=baker.make('dogs.Currency'),
             _quantity=n
         )
         return utbb
@@ -27,7 +27,6 @@ def ftbb():
     def filled_transaction_bakery_batch(n):
         utbb = baker.make(
             'dogs.Transaction',
-            amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
             _quantity=n
         )
         return utbb
@@ -40,7 +39,6 @@ def ftb():
     def filled_transaction_bakery():
         utbb = baker.make(
             'dogs.Transaction',
-            amount_in_cents=1032000,  # --> Passes min. payload restriction in every currency
             currency=baker.make('dogs.Currency')
         )
         return utbb

@@ -134,7 +134,6 @@ class TestTransactionEndpoints:
         client = api_client()
         t = utbb(1)[0]
         valid_data_dict = {
-            'amount_in_cents': t.amount_in_cents,
             'currency': t.currency.code,
             'name': t.name,
             'email': t.email,
@@ -155,10 +154,9 @@ class TestTransactionEndpoints:
 
     def test_retrieve(self, api_client, ftb):
         t = ftb()
-        t = Transaction.objects.last()
+        # t = Transaction.objects.last()
         expected_json = t.__dict__
-        expected_json['link'] = t.link
-        expected_json['currency'] = t.currency.code
+        # expected_json['currency'] = t.currency
         expected_json['creation_date'] = expected_json['creation_date'].strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
         )
@@ -168,16 +166,18 @@ class TestTransactionEndpoints:
 
         response = api_client().get(url)
 
+        response_body = json.loads(response.content)
+        del(response_body['currency'])
+
         assert response.status_code == 200 or response.status_code == 301
-        assert json.loads(response.content) == expected_json
+        assert response_body == expected_json
 
     def test_update(self, api_client, utbb):
         old_transaction = utbb(1)[0]
         t = utbb(1)[0]
         expected_json = t.__dict__
-        expected_json['id'] = old_transaction.id.hashid
+        expected_json['id'] = old_transaction.id
         expected_json['currency'] = old_transaction.currency.code
-        expected_json['link'] = Transaction.objects.first().link
         expected_json['creation_date'] = old_transaction.creation_date.strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
         )
@@ -197,10 +197,7 @@ class TestTransactionEndpoints:
 
     @pytest.mark.parametrize('field', [
         ('name'),
-        ('billing_name'),
-        ('billing_email'),
         ('email'),
-        ('amount_in_cents'),
         ('message'),
     ])
     def test_partial_update(self, api_client, field, utbb):
