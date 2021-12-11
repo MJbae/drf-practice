@@ -1,5 +1,4 @@
 from model_bakery import baker
-import factory
 import json
 import pytest
 
@@ -130,9 +129,10 @@ class TestTransactionEndpoints:
         assert response.status_code == 200
         assert len(json.loads(response.content)) == 3
 
-    def test_create(self, api_client, utbb):
+    def test_create(self, api_client, ftb):
         client = api_client()
-        t = utbb(1)[0]
+        t = ftb()
+
         valid_data_dict = {
             'currency': t.currency.id,
             'name': t.name,
@@ -159,7 +159,7 @@ class TestTransactionEndpoints:
 
     def test_retrieve(self, api_client, ftb):
         t = ftb()
-        t = Transaction.objects.last()
+
         expected_json = t.__dict__
         expected_json['creation_date'] = expected_json['creation_date'].strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -177,14 +177,13 @@ class TestTransactionEndpoints:
         assert response_body['email'] == expected_json['email']
         assert response_body['message'] == expected_json['message']
 
-    def test_update(self, api_client, utbb):
-        old_transaction = utbb(1)[0]
-        new_transaction = utbb(1)[0]
+    def test_update(self, api_client, ftb):
+        old_transaction = ftb()
+        new_transaction = ftb()
 
         expected_json = new_transaction.__dict__
         expected_json['currency'] = new_transaction.currency.id
         expected_json.pop('_state')
-
         url = f'{self.endpoint}{old_transaction.id}/'
 
         response = api_client().put(
@@ -206,10 +205,10 @@ class TestTransactionEndpoints:
         ('email'),
         ('message'),
     ])
-    def test_partial_update(self, api_client, field, utbb):
-        utbb(2)
-        old_transaction = Transaction.objects.first()
-        new_transaction = Transaction.objects.last()
+    def test_partial_update(self, api_client, field, ftb, ftbnp):
+        old_transaction = ftb()
+        new_transaction = ftbnp()
+
         valid_field = {
             field: new_transaction.__dict__[field],
         }
