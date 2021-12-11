@@ -40,17 +40,16 @@ class Transaction(models.Model):
     email = models.EmailField(max_length=50, null=False, blank=False)
     creation_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     currency = models.ForeignKey(Currency, null=False, blank=False, default=1, on_delete=models.PROTECT)
-    payment_status = models.CharField(max_length=21)
+    payment_status = models.CharField(max_length=21, null=True)
     payment_intent_id = models.CharField(max_length=100, null=True, blank=False, default=None)
     message = models.TextField(null=True, blank=True)
 
-
-@property
-def link(self):
-    """
-    Link to a payment form for the transaction
-    """
-    return settings.ALLOWED_HOSTS[0] + f'/payment/{str(self.id)}'
+    @property
+    def link(self):
+        """
+        Link to a payment form for the transaction
+        """
+        return settings.ALLOWED_HOSTS[0] + f'/payment/{str(self.id)}'
 
 
 class Owner(models.Model):
