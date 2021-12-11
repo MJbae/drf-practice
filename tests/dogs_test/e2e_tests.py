@@ -134,7 +134,7 @@ class TestTransactionEndpoints:
         client = api_client()
         t = utbb(1)[0]
         valid_data_dict = {
-            'currency': t.currency.code,
+            'currency': t.currency.id,
             'name': t.name,
             'email': t.email,
             'message': t.message
@@ -148,15 +148,19 @@ class TestTransactionEndpoints:
             format='json'
         )
 
+        # response body에서 자동 생성된 id 필드 제거
+        response_body = json.loads(response.content)
+
         assert response.status_code == 201
-        assert json.loads(response.content) == valid_data_dict
-        assert Transaction.objects.last().link
+        assert response_body['currency'] == valid_data_dict['currency']
+        assert response_body['name'] == valid_data_dict['name']
+        assert response_body['email'] == valid_data_dict['email']
+        assert response_body['message'] == valid_data_dict['message']
 
     def test_retrieve(self, api_client, ftb):
         t = ftb()
         # t = Transaction.objects.last()
         expected_json = t.__dict__
-        # expected_json['currency'] = t.currency
         expected_json['creation_date'] = expected_json['creation_date'].strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
         )
@@ -167,17 +171,18 @@ class TestTransactionEndpoints:
         response = api_client().get(url)
 
         response_body = json.loads(response.content)
-        del(response_body['currency'])
 
         assert response.status_code == 200 or response.status_code == 301
-        assert response_body == expected_json
+        assert response_body['name'] == expected_json['name']
+        assert response_body['email'] == expected_json['email']
+        assert response_body['message'] == expected_json['message']
 
     def test_update(self, api_client, utbb):
         old_transaction = utbb(1)[0]
         t = utbb(1)[0]
         expected_json = t.__dict__
         expected_json['id'] = old_transaction.id
-        expected_json['currency'] = old_transaction.currency.code
+        expected_json['currency'] = old_transaction.currency.id
         expected_json['creation_date'] = old_transaction.creation_date.strftime(
             '%Y-%m-%dT%H:%M:%S.%fZ'
         )
@@ -191,7 +196,10 @@ class TestTransactionEndpoints:
             data=expected_json,
             format='json'
         )
-
+        print(f'old_transaction.currency.code: {old_transaction.currency.code}')
+        print(f'old_transaction.currency.id: {old_transaction.currency.id}')
+        print(f'json.loads(response.content): {json.loads(response.content)}')
+        print(f'expected_json: {expected_json}')
         assert response.status_code == 200 or response.status_code == 301
         assert json.loads(response.content) == expected_json
 
