@@ -35,7 +35,6 @@ class Currency(models.Model):
 
 class Transaction(models.Model):
     """Transaction model."""
-    id = HashidAutoField(primary_key=True, min_length=8, alphabet=string.printable.replace('/', ''))
     name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     creation_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
