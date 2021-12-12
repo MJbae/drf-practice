@@ -36,3 +36,26 @@ class TestCurrencyViewSet:
         # Assert
         assert response.status_code == 200
         assert len(json.loads(response.content)) == 3
+
+    def test_retrieve(self, mocker, rf):
+        currency = baker.prepare(Currency)
+        expected_json = {
+            'name': currency.name,
+            'code': currency.code,
+            'symbol': currency.symbol
+        }
+        url = reverse('currencies-detail', kwargs={'pk': currency.id})
+        request = rf.get(url)
+        mocker.patch.object(
+            CurrencyViewSet, 'get_queryset', return_value=MockSet(currency)
+        )
+        view = CurrencyViewSet.as_view(
+            {'get': 'retrieve'}
+        )
+
+        response = view(request, pk=currency.id).render()
+        response_body = json.loads(response.content)
+        del (response_body['id'])
+
+        assert response.status_code == 200
+        assert response_body == expected_json
