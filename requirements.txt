@@ -48,4 +48,5 @@ toml==0.10.2
 toposort==1.7
 uritemplate==3.0.1
 urllib3==1.26.7
-pytest-cov== 3.0.0
+pytest-cov==3.0.0
+django-mock-queries==2.1.7
