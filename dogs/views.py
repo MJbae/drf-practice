@@ -10,14 +10,19 @@ class DogViewSet(viewsets.ModelViewSet):
 
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return UnfilledTransactionSerializer
+        else:
+            return FilledTransactionSerializer
 
 
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
-    
-    
+
+
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
