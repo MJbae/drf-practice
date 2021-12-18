@@ -60,56 +60,60 @@ class TestCurrencyViewSet:
         assert response.status_code == 200
         assert response_body == expected_json
 
-    # def test_update(self, mocker, rf):
-    #     old_currency = baker.prepare(Currency)
-    #     new_currency = baker.prepare(Currency)
-    #     currency_dict = {
-    #         'code': new_currency.code,
-    #         'name': new_currency.name,
-    #         'symbol': new_currency.symbol
-    #     }
-    #     url = reverse('currencies-detail', kwargs={'pk': old_currency.id})
-    #     request = rf.put(
-    #         url,
-    #         content_type='application/json',
-    #         data=json.dumps(currency_dict)
-    #     )
-    #     mocker.patch.object(
-    #         CurrencyViewSet, 'get_object', return_value=old_currency
-    #     )
-    #     mocker.patch.object(
-    #         Currency, 'save'
-    #     )
-    #     view = CurrencyViewSet.as_view(
-    #         {'put': 'update'}
-    #     )
-    #
-    #     response = view(request, pk=old_currency.id).render()
-    #
-    #     assert response.status_code == 200
-    #     assert json.loads(response.content) == currency_dict
+    def test_update(self, mocker, rf):
+        old_currency = baker.prepare(Currency)
+        new_currency = baker.prepare(Currency)
+        currency_dict = {
+            'code': new_currency.code,
+            'name': new_currency.name,
+            'symbol': new_currency.symbol
+        }
+        url = reverse('currencies-detail', kwargs={'pk': old_currency.id})
+        request = rf.put(
+            url,
+            content_type='application/json',
+            data=json.dumps(currency_dict)
+        )
+        mocker.patch.object(
+            CurrencyViewSet, 'get_object', return_value=old_currency
+        )
+        mocker.patch.object(
+            Currency, 'save'
+        )
+        view = CurrencyViewSet.as_view(
+            {'put': 'update'}
+        )
 
-    # def test_create(self, mocker, rf):
-    #     currency = baker.prepare(Currency)
-    #     valid_data_dict = {
-    #         'name': currency.name,
-    #         'code': currency.code,
-    #         'symbol': currency.symbol
-    #     }
-    #     url = reverse('currencies-list')
-    #     request = rf.post(
-    #         url,
-    #         content_type='application/json',
-    #         data=json.dumps(valid_data_dict)
-    #     )
-    #     mocker.patch.object(
-    #         Currency, 'save'
-    #     )
-    #     view = CurrencyViewSet.as_view(
-    #         {'post': 'create'}
-    #     )
-    #
-    #     response = view(request).render()
-    #
-    #     assert response.status_code == 201
-    #     assert json.loads(response.content) == valid_data_dict
+        response = view(request, pk=old_currency.id).render()
+        response_body = json.loads(response.content)
+        del(response_body['id'])
+
+        assert response.status_code == 200
+        assert response_body == currency_dict
+
+    def test_create(self, mocker, rf):
+        currency = baker.prepare(Currency)
+        currency_dict = {
+            'name': currency.name,
+            'code': currency.code,
+            'symbol': currency.symbol
+        }
+        url = reverse('currencies-list')
+        request = rf.post(
+            url,
+            content_type='application/json',
+            data=json.dumps(currency_dict)
+        )
+        mocker.patch.object(
+            Currency, 'save'
+        )
+        view = CurrencyViewSet.as_view(
+            {'post': 'create'}
+        )
+
+        response = view(request).render()
+        response_body = json.loads(response.content)
+        del (response_body['id'])
+
+        assert response.status_code == 201
+        assert response_body == currency_dict
