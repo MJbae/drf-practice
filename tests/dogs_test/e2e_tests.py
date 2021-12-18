@@ -4,7 +4,7 @@ import pytest
 
 from dogs.models import Transaction, Currency
 
-pytestmark = pytest.mark.django_db
+pytestmark = [pytest.mark.django_db, pytest.mark.e2e]
 
 
 class TestCurrencyEndpoints:
