@@ -61,3 +61,7 @@ class BaseTransaction(models.Model):
 
 class Transaction(BaseTransaction):
     pass
+
+
+class OtherTransaction(BaseTransaction):
+    payment_status = models.CharField(max_length=10, default="Test")
