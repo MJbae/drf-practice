@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('books', '0002_isbn'),
+        ("books", "0002_isbn"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='isbn',
-            name='id',
+            model_name="isbn",
+            name="id",
         ),
         migrations.AlterField(
-            model_name='isbn',
-            name='code',
+            model_name="isbn",
+            name="code",
             field=models.CharField(max_length=13, primary_key=True, serialize=False),
         ),
     ]

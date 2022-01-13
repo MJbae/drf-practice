@@ -27,40 +27,33 @@ class TransactionSerializer(serializers.ModelSerializer):
 class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
-        fields = ['id', 'name', 'code', 'symbol']
+        fields = ["id", "name", "code", "symbol"]
         if settings.DEBUG:
             extra_kwargs = {
-                'name': {
-                    'validators': [MaxLengthValidator]
-                },
-                'code': {
-                    'validators': [MaxLengthValidator]
-                }
+                "name": {"validators": [MaxLengthValidator]},
+                "code": {"validators": [MaxLengthValidator]},
             }
 
 
 class UnfilledTransactionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Transaction
         fields = "__all__"
 
 
 class FilledTransactionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = "__all__"
         extra_kwargs = {
-            """Non editable fields"""
-            'creation_date': {'read_only': True},
-            'payment_intent_id': {'read_only': True},
-            'payment_status': {'read_only': True},
+            """Non editable fields""" "creation_date": {"read_only": True},
+            "payment_intent_id": {"read_only": True},
+            "payment_status": {"read_only": True},
         }
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    dogs = DogSerializer(many=True, source='dog_set')
+    dogs = DogSerializer(many=True, source="dog_set")
 
     class Meta:
         model = Customer
@@ -68,7 +61,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class OwnerSerializer(serializers.ModelSerializer):
-    dogs = DogSerializer(many=True, source='dog_set')
+    dogs = DogSerializer(many=True, source="dog_set")
 
     class Meta:
         model = Owner

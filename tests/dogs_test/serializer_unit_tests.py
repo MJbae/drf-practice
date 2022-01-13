@@ -6,15 +6,18 @@ from django.urls import reverse
 from django_mock_queries.mocks import MockSet
 from rest_framework.relations import RelatedField, SlugRelatedField
 
-from dogs.serializers import UnfilledTransactionSerializer, FilledTransactionSerializer, CurrencySerializer
+from dogs.serializers import (
+    UnfilledTransactionSerializer,
+    FilledTransactionSerializer,
+    CurrencySerializer,
+)
 from dogs.views import CurrencyViewSet, TransactionViewSet
 from dogs.models import Currency, Transaction
 
-pytestmark = [pytest.mark.urls('config.urls'), pytest.mark.unit]
+pytestmark = [pytest.mark.urls("config.urls"), pytest.mark.unit]
 
 
 class TestCurrencySerializer:
-
     def test_serializing_model(self):
         currency = baker.prepare(Currency)
         serializer = CurrencySerializer(currency)
@@ -31,56 +34,46 @@ class TestCurrencySerializer:
 
 
 class TestUnfilledTransactionSerializer:
-
     @pytest.mark.django_db
     def test_serializing_model(self, utbbnp):
         t = baker.make(
-            'dogs.Transaction',
-            currency=baker.make('dogs.Currency'),
-            _fill_optional=[
-                'name',
-                'email',
-                'currency',
-                'message'
-            ]
+            "dogs.Transaction",
+            currency=baker.make("dogs.Currency"),
+            _fill_optional=["name", "email", "currency", "message"],
         )
         expected_serialized_data = {
-            'name': t.name,
-            'currency': t.currency.id,
-            'email': t.email,
-            'message': t.message
+            "name": t.name,
+            "currency": t.currency.id,
+            "email": t.email,
+            "message": t.message,
         }
 
         serializer = UnfilledTransactionSerializer(t)
 
-        assert serializer.data['name'] == expected_serialized_data['name']
-        assert serializer.data['currency'] == expected_serialized_data['currency']
-        assert serializer.data['email'] == expected_serialized_data['email']
-        assert serializer.data['message'] == expected_serialized_data['message']
+        assert serializer.data["name"] == expected_serialized_data["name"]
+        assert serializer.data["currency"] == expected_serialized_data["currency"]
+        assert serializer.data["email"] == expected_serialized_data["email"]
+        assert serializer.data["message"] == expected_serialized_data["message"]
 
     @pytest.mark.django_db
     def test_serialized_data(self, mocker):
         t = baker.prepare(
-            'dogs.Transaction',
-            currency=baker.make('dogs.Currency'),
-            _fill_optional=[
-                'name',
-                'email',
-                'currency',
-                'message'
-            ]
+            "dogs.Transaction",
+            currency=baker.make("dogs.Currency"),
+            _fill_optional=["name", "email", "currency", "message"],
         )
         valid_serialized_data = {
-            'name': t.name,
-            'currency': t.currency.id,
-            'email': t.email,
-            'message': t.message,
+            "name": t.name,
+            "currency": t.currency.id,
+            "email": t.email,
+            "message": t.message,
         }
 
         serializer = UnfilledTransactionSerializer(data=valid_serialized_data)
 
         assert serializer.is_valid(raise_exception=True)
         assert serializer.errors == {}
+
 
 #
 # class TestFilledTransactionSerializer:

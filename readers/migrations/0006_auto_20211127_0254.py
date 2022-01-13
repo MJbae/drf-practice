@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('readers', '0005_auto_20211127_0224'),
+        ("readers", "0005_auto_20211127_0224"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='reader',
-            name='total_city',
+            model_name="reader",
+            name="total_city",
         ),
         migrations.AddField(
-            model_name='reader',
-            name='latest_city',
+            model_name="reader",
+            name="latest_city",
             field=models.FloatField(default=1),
         ),
     ]

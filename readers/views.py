@@ -17,23 +17,25 @@ class AddressViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         kwargs["partial"] = True
         request_body = request.data
-        reader_id = request_body.get('reader')
+        reader_id = request_body.get("reader")
         reader = Reader.objects.get(id=reader_id)
-        latest_city = getattr(reader, 'latest_city')
-        new_city = request_body.get('city')
+        latest_city = getattr(reader, "latest_city")
+        new_city = request_body.get("city")
 
         # 새로 생성되는 address가 최신 city일 경우(가장 값이 높은 city일 경우)
         # Reader 내 latest_city 값 수정
         if new_city > latest_city:
             reader.latest_city = new_city
-            reader.save(update_fields=['latest_city'])
+            reader.save(update_fields=["latest_city"])
             request_body.update({"city": new_city})
 
         if not kwargs.pop("pk", None):
             serializer = self.get_serializer(data=request_body, **kwargs)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(instance=self.get_object(), data=request_body, **kwargs)
+        serializer = self.get_serializer(
+            instance=self.get_object(), data=request_body, **kwargs
+        )
 
         if serializer.is_valid():
             serializer.save()
@@ -47,11 +49,11 @@ class AddressViewSet(viewsets.ModelViewSet):
         is_many = isinstance(request_body, list)
 
         object_in_request = request_body
-        reader_id = object_in_request.get('reader')
+        reader_id = object_in_request.get("reader")
         reader = Reader.objects.get(id=reader_id)
-        latest_city = getattr(reader, 'latest_city')
-        new_city = object_in_request.get('city')
-        print(f'latest_city: {latest_city}, new_city: {new_city}')
+        latest_city = getattr(reader, "latest_city")
+        new_city = object_in_request.get("city")
+        print(f"latest_city: {latest_city}, new_city: {new_city}")
 
         # 새로 생성되는 address가 최신 city일 경우(가장 값이 높은 city일 경우)
         # Reader 내 latest_city 값 수정

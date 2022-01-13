@@ -6,15 +6,10 @@ import pytest
 def utbb():
     def unfilled_transaction_bakery_batch(n):
         utbb = baker.make(
-            'dogs.Transaction',
-            currency=baker.make('dogs.Currency'),
-            _fill_optional=[
-                'name',
-                'email',
-                'currency',
-                'message'
-            ],
-            _quantity=n
+            "dogs.Transaction",
+            currency=baker.make("dogs.Currency"),
+            _fill_optional=["name", "email", "currency", "message"],
+            _quantity=n,
         )
         return utbb
 
@@ -25,9 +20,7 @@ def utbb():
 def ftbb():
     def filled_transaction_bakery_batch(n):
         ftbb = baker.make(
-            'dogs.Transaction',
-            currency=baker.make('dogs.Currency'),
-            _quantity=n
+            "dogs.Transaction", currency=baker.make("dogs.Currency"), _quantity=n
         )
         return ftbb
 
@@ -37,10 +30,7 @@ def ftbb():
 @pytest.fixture
 def ftb():
     def filled_transaction_bakery():
-        ftb = baker.make(
-            'dogs.Transaction',
-            currency=baker.make('dogs.Currency')
-        )
+        ftb = baker.make("dogs.Transaction", currency=baker.make("dogs.Currency"))
         return ftb
 
     return filled_transaction_bakery
@@ -50,15 +40,10 @@ def ftb():
 def utbbnp():
     def unfilled_transaction_bakery_batch_not_persistent(n):
         utbb = baker.prepare(
-            'dogs.Transaction',
-            currency=baker.prepare('dogs.Currency'),
-            _fill_optional=[
-                'name',
-                'email',
-                'currency',
-                'message'
-            ],
-            _quantity=n
+            "dogs.Transaction",
+            currency=baker.prepare("dogs.Currency"),
+            _fill_optional=["name", "email", "currency", "message"],
+            _quantity=n,
         )
         return utbb
 
@@ -69,9 +54,7 @@ def utbbnp():
 def ftbbnp():
     def filled_transaction_bakery_batch_not_persistent(n):
         ftbb = baker.prepare(
-            'dogs.Transaction',
-            currency=baker.prepare('dogs.Currency'),
-            _quantity=n
+            "dogs.Transaction", currency=baker.prepare("dogs.Currency"), _quantity=n
         )
         return ftbb
 
@@ -81,10 +64,7 @@ def ftbbnp():
 @pytest.fixture
 def ftbnp():
     def filled_transaction_bakery_not_persistent():
-        ftb = baker.prepare(
-            'dogs.Transaction',
-            currency=baker.prepare('dogs.Currency')
-        )
+        ftb = baker.prepare("dogs.Transaction", currency=baker.prepare("dogs.Currency"))
         return ftb
 
     return filled_transaction_bakery_not_persistent

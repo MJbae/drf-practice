@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dogs', '0002_customer_owner'),
+        ("dogs", "0002_customer_owner"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customer',
-            name='dog_set',
-            field=models.ManyToManyField(blank=True, related_name='customers', to='dogs.Dog'),
+            model_name="customer",
+            name="dog_set",
+            field=models.ManyToManyField(
+                blank=True, related_name="customers", to="dogs.Dog"
+            ),
         ),
         migrations.AlterField(
-            model_name='owner',
-            name='dog_set',
-            field=models.ManyToManyField(blank=True, related_name='owners', to='dogs.Dog'),
+            model_name="owner",
+            name="dog_set",
+            field=models.ManyToManyField(
+                blank=True, related_name="owners", to="dogs.Dog"
+            ),
         ),
     ]

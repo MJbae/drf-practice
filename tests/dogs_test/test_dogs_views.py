@@ -14,7 +14,7 @@ class DogListViewTest(TestCase):
 
         for dog_id in range(number_of_dogs):
             Dog.objects.create(
-                sex='F',
+                sex="F",
                 birth_date=date.today() + timedelta(days=dog_id),
             )
 
@@ -25,4 +25,3 @@ class DogListViewTest(TestCase):
     def test_view_url_accessible_by_name(self):
         response = self.client.get(self.URL_DOGS)
         self.assertEqual(response.status_code, 200)
-

@@ -12,7 +12,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'create':
+        if self.action == "create":
             return UnfilledTransactionSerializer
         else:
             return FilledTransactionSerializer

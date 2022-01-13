@@ -7,7 +7,7 @@ from .models import Reader, Address
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ReaderSerializer(serializers.ModelSerializer):
@@ -15,4 +15,4 @@ class ReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reader
-        fields = ('id', 'name', 'email', 'addresses', 'latest_city')
+        fields = ("id", "name", "email", "addresses", "latest_city")

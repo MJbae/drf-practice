@@ -9,6 +9,6 @@ class CurrencyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Currency
 
-    name = factory.Sequence(lambda n: 'Bae%s' % n)
-    code = factory.Sequence(lambda n: '%s' % n)
-    symbol = factory.Sequence(lambda n: '%s' % n)
+    name = factory.Sequence(lambda n: "Bae%s" % n)
+    code = factory.Sequence(lambda n: "%s" % n)
+    symbol = factory.Sequence(lambda n: "%s" % n)

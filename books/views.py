@@ -1,6 +1,11 @@
 from rest_framework import viewsets
 from .models import Author, Book, Isbn
-from .serializers import AuthorSerializer, BookSerializer, IsbnSerializer, BookReportSerializer
+from .serializers import (
+    AuthorSerializer,
+    BookSerializer,
+    IsbnSerializer,
+    BookReportSerializer,
+)
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -24,7 +29,7 @@ class BookReportViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Book.objects.all()
-        print(f'queryset: {queryset.query}')
+        print(f"queryset: {queryset.query}")
         return queryset
 
 
@@ -33,6 +38,6 @@ class IsbnViewSet(viewsets.ModelViewSet):
     serializer_class = IsbnSerializer
 
     def get_queryset(self):
-        queryset = Isbn.objects.prefetch_related('book').all()
-        print(f'queryset: {queryset.query}')
+        queryset = Isbn.objects.prefetch_related("book").all()
+        print(f"queryset: {queryset.query}")
         return queryset

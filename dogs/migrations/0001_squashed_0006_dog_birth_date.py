@@ -5,21 +5,40 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('dogs', '0001_initial'), ('dogs', '0002_dog_name'), ('dogs', '0003_dog_days_from_birth_date'), ('dogs', '0004_remove_dog_days_from_birth_date'), ('dogs', '0005_remove_dog_birth_date'), ('dogs', '0006_dog_birth_date')]
+    replaces = [
+        ("dogs", "0001_initial"),
+        ("dogs", "0002_dog_name"),
+        ("dogs", "0003_dog_days_from_birth_date"),
+        ("dogs", "0004_remove_dog_days_from_birth_date"),
+        ("dogs", "0005_remove_dog_birth_date"),
+        ("dogs", "0006_dog_birth_date"),
+    ]
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Dog',
+            name="Dog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sex', models.CharField(choices=[('F', 'Female'), ('M', 'Male')], max_length=1)),
-                ('name', models.CharField(max_length=64, null=True)),
-                ('birth_date', models.DateField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "sex",
+                    models.CharField(
+                        choices=[("F", "Female"), ("M", "Male")], max_length=1
+                    ),
+                ),
+                ("name", models.CharField(max_length=64, null=True)),
+                ("birth_date", models.DateField(null=True)),
             ],
         ),
     ]
