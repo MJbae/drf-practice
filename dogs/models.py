@@ -16,6 +16,16 @@ class Dog(models.Model):
     )
 
 
+class Owner(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True, related_name="owners")
+
+
+class Customer(models.Model):
+    name = models.CharField(max_length=64, null=True)
+    dog_set = models.ManyToManyField(Dog, blank=True, related_name="customers")
+
+
 class BaseCurrency(models.Model):
     name = models.CharField(max_length=120, null=False, blank=False, unique=True)
     code = models.CharField(max_length=3, null=False, blank=False, unique=True)
@@ -51,13 +61,3 @@ class BaseTransaction(models.Model):
 
 class Transaction(BaseTransaction):
     pass
-
-
-class Owner(models.Model):
-    name = models.CharField(max_length=64, null=True)
-    dog_set = models.ManyToManyField(Dog, blank=True, related_name="owners")
-
-
-class Customer(models.Model):
-    name = models.CharField(max_length=64, null=True)
-    dog_set = models.ManyToManyField(Dog, blank=True, related_name="customers")
