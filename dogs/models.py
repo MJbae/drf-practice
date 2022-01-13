@@ -28,6 +28,10 @@ class BaseCurrency(models.Model):
         abstract = True
 
 
+class Currency(BaseCurrency):
+    pass
+
+
 class BaseTransaction(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
@@ -43,6 +47,10 @@ class BaseTransaction(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Transaction(BaseTransaction):
+    pass
 
 
 class Owner(models.Model):
