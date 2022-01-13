@@ -16,9 +16,7 @@ class Dog(models.Model):
     )
 
 
-class Currency(models.Model):
-    """Currency model"""
-
+class BaseCurrency(models.Model):
     name = models.CharField(max_length=120, null=False, blank=False, unique=True)
     code = models.CharField(max_length=3, null=False, blank=False, unique=True)
     symbol = models.CharField(max_length=5, null=False, blank=False, default="$")
@@ -26,10 +24,11 @@ class Currency(models.Model):
     def __str__(self) -> str:
         return self.code
 
+    class Meta:
+        abstract = True
 
-class Transaction(models.Model):
-    """Transaction model."""
 
+class BaseTransaction(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     creation_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
@@ -41,6 +40,9 @@ class Transaction(models.Model):
         max_length=100, null=True, blank=False, default=None
     )
     message = models.TextField(null=True, blank=True)
+
+    class Meta:
+        abstract = True
 
 
 class Owner(models.Model):
