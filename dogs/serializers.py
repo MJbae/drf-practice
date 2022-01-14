@@ -35,6 +35,23 @@ class CurrencySerializer(serializers.ModelSerializer):
             }
 
 
+class OtherTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+
+
+class OtherCurrencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Currency
+        fields = ["id", "name", "code", "symbol"]
+        if settings.DEBUG:
+            extra_kwargs = {
+                "name": {"validators": [MaxLengthValidator]},
+                "code": {"validators": [MaxLengthValidator]},
+            }
+
+
 class UnfilledTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
@@ -42,6 +59,23 @@ class UnfilledTransactionSerializer(serializers.ModelSerializer):
 
 
 class FilledTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+        extra_kwargs = {
+            """Non editable fields""" "creation_date": {"read_only": True},
+            "payment_intent_id": {"read_only": True},
+            "payment_status": {"read_only": True},
+        }
+
+
+class UnfilledOtherTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+
+
+class FilledOtherTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = "__all__"
