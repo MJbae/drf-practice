@@ -42,6 +42,10 @@ class Currency(BaseCurrency):
     pass
 
 
+class OtherCurrency(BaseCurrency):
+    pass
+
+
 class BaseTransaction(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
