@@ -51,7 +51,10 @@ class BaseTransaction(models.Model):
     email = models.EmailField(max_length=50, null=False, blank=False)
     creation_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     currency = models.ForeignKey(
-        Currency, null=False, blank=False, default=1, on_delete=models.PROTECT
+        Currency, null=True, blank=True, on_delete=models.PROTECT
+    )
+    other_currency = models.ForeignKey(
+        OtherCurrency, null=True, blank=True, on_delete=models.PROTECT
     )
     payment_status = models.CharField(max_length=21, null=True)
     payment_intent_id = models.CharField(
