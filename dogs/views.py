@@ -23,6 +23,21 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     serializer_class = CurrencySerializer
 
 
+class OtherTransactionViewSet(viewsets.ModelViewSet):
+    queryset = OtherTransaction.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return UnfilledOtherTransactionSerializer
+        else:
+            return FilledOtherTransactionSerializer
+
+
+class OtherCurrencyViewSet(viewsets.ModelViewSet):
+    queryset = OtherCurrency.objects.all()
+    serializer_class = OtherCurrencySerializer
+
+
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
