@@ -7,28 +7,48 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dogs', '0003_auto_20220114_0303'),
+        ("dogs", "0003_auto_20220114_0303"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='othertransaction',
-            name='currency',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dogs.currency'),
+            model_name="othertransaction",
+            name="currency",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="dogs.currency",
+            ),
         ),
         migrations.AlterField(
-            model_name='othertransaction',
-            name='other_currency',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dogs.othercurrency'),
+            model_name="othertransaction",
+            name="other_currency",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="dogs.othercurrency",
+            ),
         ),
         migrations.AlterField(
-            model_name='transaction',
-            name='currency',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dogs.currency'),
+            model_name="transaction",
+            name="currency",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="dogs.currency",
+            ),
         ),
         migrations.AlterField(
-            model_name='transaction',
-            name='other_currency',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='dogs.othercurrency'),
+            model_name="transaction",
+            name="other_currency",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="dogs.othercurrency",
+            ),
         ),
     ]

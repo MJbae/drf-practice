@@ -8,77 +8,159 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Currency',
+            name="Currency",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, unique=True)),
-                ('code', models.CharField(max_length=3, unique=True)),
-                ('symbol', models.CharField(default='$', max_length=5)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=120, unique=True)),
+                ("code", models.CharField(max_length=3, unique=True)),
+                ("symbol", models.CharField(default="$", max_length=5)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Dog',
+            name="Dog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, null=True)),
-                ('birth_date', models.DateField(null=True)),
-                ('sex', models.CharField(choices=[('F', 'Female'), ('M', 'Male')], max_length=1)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=64, null=True)),
+                ("birth_date", models.DateField(null=True)),
+                (
+                    "sex",
+                    models.CharField(
+                        choices=[("F", "Female"), ("M", "Male")], max_length=1
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Transaction',
+            name="Transaction",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('email', models.EmailField(max_length=50)),
-                ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('payment_status', models.CharField(max_length=21, null=True)),
-                ('payment_intent_id', models.CharField(default=None, max_length=100, null=True)),
-                ('message', models.TextField(blank=True, null=True)),
-                ('currency', models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='dogs.currency')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("email", models.EmailField(max_length=50)),
+                ("creation_date", models.DateTimeField(auto_now_add=True)),
+                ("payment_status", models.CharField(max_length=21, null=True)),
+                (
+                    "payment_intent_id",
+                    models.CharField(default=None, max_length=100, null=True),
+                ),
+                ("message", models.TextField(blank=True, null=True)),
+                (
+                    "currency",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="dogs.currency",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Owner',
+            name="Owner",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, null=True)),
-                ('dog_set', models.ManyToManyField(blank=True, related_name='owners', to='dogs.Dog')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=64, null=True)),
+                (
+                    "dog_set",
+                    models.ManyToManyField(
+                        blank=True, related_name="owners", to="dogs.Dog"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OtherTransaction',
+            name="OtherTransaction",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('email', models.EmailField(max_length=50)),
-                ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('payment_intent_id', models.CharField(default=None, max_length=100, null=True)),
-                ('message', models.TextField(blank=True, null=True)),
-                ('payment_status', models.CharField(default='Test', max_length=10)),
-                ('currency', models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='dogs.currency')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("email", models.EmailField(max_length=50)),
+                ("creation_date", models.DateTimeField(auto_now_add=True)),
+                (
+                    "payment_intent_id",
+                    models.CharField(default=None, max_length=100, null=True),
+                ),
+                ("message", models.TextField(blank=True, null=True)),
+                ("payment_status", models.CharField(default="Test", max_length=10)),
+                (
+                    "currency",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="dogs.currency",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Customer',
+            name="Customer",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, null=True)),
-                ('dog_set', models.ManyToManyField(blank=True, related_name='customers', to='dogs.Dog')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=64, null=True)),
+                (
+                    "dog_set",
+                    models.ManyToManyField(
+                        blank=True, related_name="customers", to="dogs.Dog"
+                    ),
+                ),
             ],
         ),
     ]

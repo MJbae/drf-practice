@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Dog, Owner, Customer, Transaction, OtherTransaction, Currency, OtherCurrency
+from .models import (
+    Dog,
+    Owner,
+    Customer,
+    Transaction,
+    OtherTransaction,
+    Currency,
+    OtherCurrency,
+)
 
 admin.site.register(Dog)
 admin.site.register(Owner)
